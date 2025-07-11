@@ -1,6 +1,7 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +14,6 @@ import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.service.AdService;
 
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/ads")
@@ -32,7 +32,7 @@ public ResponseEntity<Ads> getAllAds(){
 }
 
 @PostMapping(consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<Ad> addAd(@RequestPart("properties") @Valid CreateOrUpdateAd properties,@RequestPart("image") MultipartFile image){
+public ResponseEntity<Ad> addAd(@RequestPart("properties") @Valid CreateOrUpdateAd properties, @RequestPart("image") MultipartFile image){
     return ResponseEntity.status(HttpStatus.CREATED).body(adService.addAd(properties,image));
 }
 
