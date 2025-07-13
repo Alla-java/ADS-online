@@ -1,7 +1,7 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
-import ru.skypro.homework.dto.NewPassword;
+import ru.skypro.homework.dto.authentication.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.User;
 

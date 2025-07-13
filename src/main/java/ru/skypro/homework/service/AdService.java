@@ -14,11 +14,6 @@ Ad addAd(CreateOrUpdateAd dto,MultipartFile image);
 
 ExtendedAd getAd(Integer id);
 
-void deleteAd(Integer id);
+void updateImage(Integer id,MultipartFile image);
 
-Ad updateAd(Integer id,CreateOrUpdateAd dto);
-
-byte[] updateImage(Integer id,MultipartFile image);
-
-Ads getMyAds();
 }

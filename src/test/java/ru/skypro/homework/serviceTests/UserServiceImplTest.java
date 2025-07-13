@@ -2,7 +2,7 @@ package ru.skypro.homework.serviceTests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
-import ru.skypro.homework.dto.NewPassword;
+import ru.skypro.homework.dto.authentication.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.service.UserServiceImpl;
 
