@@ -1,17 +1,29 @@
 package ru.skypro.homework.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Comment {
-    private Integer author;
-    private String authorImage;
-    private String authorFirstName;
-    private Long createdAt;
-    private Integer pk;
-    private String text;
+@Schema(description="Комментарий к объявлению")
+public class Comment{
+
+@Schema(description="ID автора комментария", example="321")
+private Integer author;
+
+@Schema(description="Ссылка на аватар автора комментария", example="https://example.com/avatar.jpg")
+private String authorImage;
+
+@Schema(description="Имя создателя комментария", example="Анна")
+private String authorFirstName;
+
+@Schema(description="Дата и время создания комментария в миллисекундах с 00:00:00 01.01.1970", example="1657891234567")
+private Long createdAt;
+
+@Schema(description="ID комментария", example="987")
+private Integer pk;
+
+@Schema(description="Текст комментария", example="Отличное предложение, рекомендую!")
+private String text;
 }

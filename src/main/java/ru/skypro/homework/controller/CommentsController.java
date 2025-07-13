@@ -1,5 +1,6 @@
 package ru.skypro.homework.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.Comments;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 @RequestMapping("/comments")
 public class CommentsController implements CommentsService {
 
+    @Operation(summary = "Получение комментариев объявления")
     @GetMapping("/{adId}")
     public Comments getComments(@PathVariable Integer adId) {
         // Возвращаем заглушку
@@ -21,6 +23,7 @@ public class CommentsController implements CommentsService {
         return comments;
     }
 
+    @Operation(summary = "Добавления комментария к объявлению")
     @PostMapping("/{adId}")
     public Comment addComment(@PathVariable Integer adId,
                               @RequestBody CreateOrUpdateComment req) {
@@ -34,4 +37,5 @@ public class CommentsController implements CommentsService {
         comment.setCreatedAt(System.currentTimeMillis());
         return comment;
     }
+
 }
