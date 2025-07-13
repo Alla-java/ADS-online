@@ -1,15 +1,20 @@
 package ru.skypro.homework.dto.ads;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Schema(description="Список объявлений и их количество")
 public class Ads{
-private Integer count;
-private List<Ad> results;
 
+@Schema(description="Общее количество объявлений", example="25")
+private Integer count;
+
+@Schema(description="Список объявлений")
+private List<Ad> results;
 }
+
