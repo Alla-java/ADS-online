@@ -3,7 +3,7 @@ package ru.skypro.homework.controller;
 import io.swagger.v3.oas.annotations.Parameter;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
-import ru.skypro.homework.dto.User;
+import ru.skypro.homework.dto.UserDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -30,7 +30,7 @@ public class UserController {
 
     @Operation(summary = "Получение информации об авторизованном пользователе")
     @GetMapping("/me")
-    public User getCurrentUser() {
+    public UserDto getCurrentUser() {
         return userService.getUser();
     }
 

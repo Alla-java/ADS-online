@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class User {
+public class UserDto {
 
     @Schema(description = "ID пользователя", example = "1")
-    private Integer id;
+    private Long id;
 
     @Schema(description = "Email пользователя", example = "anna@example.com")
     private String email;
@@ -27,6 +27,15 @@ public class User {
     @Schema(description = "Ссылка на аватар пользователя", example = "https://example.com/avatar.jpg")
     private String image; //ссылка на аватар пользователя
 
+    public UserDto(Long id, String email, String firstName, String lastName, String phone, Role role, String image) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.role = role;
+        this.image = image;
+    }
     }
 
 
