@@ -3,12 +3,14 @@ package ru.skypro.homework.dto.ads;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 
 @Data
+@Builder
 @Schema(description="DTO для создания или обновления объявления")
 public class CreateOrUpdateAd{
 

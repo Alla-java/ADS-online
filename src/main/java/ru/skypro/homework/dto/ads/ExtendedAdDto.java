@@ -1,16 +1,18 @@
 package ru.skypro.homework.dto.ads;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.awt.*;
 
 @Data
+@Builder
 @Schema(description="Расширенное описание объявления")
-public class ExtendedAd{
+public class ExtendedAdDto{
 
 @Schema(description="ID объявления", example="101")
-private Integer pk;
+private Long pk;
 
 @Schema(description="Имя автора объявления", example="Иван")
 private String authorFirstName;
@@ -25,7 +27,7 @@ private String description;
 private String email;
 
 @Schema(description="Ссылка на картинку объявления", example="https://example.com/image.jpg")
-private String image;
+private Image image;
 
 @Schema(description="Телефон автора объявления", example="+7 900 123-45-67")
 private String phone;
