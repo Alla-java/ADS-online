@@ -1,6 +1,7 @@
 package ru.skypro.homework.model;
 
-import liquibase.repackaged.org.apache.commons.lang3.builder.ToStringExclude;
+import lombok.ToString;
+import lombok.ToString.Exclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -9,8 +10,8 @@ import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.model.Ad;
 
 import javax.persistence.*;
+import java.util.List;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 @Entity
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String email;
     private String firstName;
@@ -37,14 +38,9 @@ public class User {
     private Image image;
 
 
-    @OneToMany(
-            mappedBy = "author",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    @ToStringExclude
-    private List<Ad> ads;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Ad> ads = new ArrayList<>();
 
     public User(String email, String firstName, String lastName, String password, String phone, Role role) {
         this.email = email;

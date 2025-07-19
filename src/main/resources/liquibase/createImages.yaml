@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigserial
+                  type: serial
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -23,17 +23,3 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
-              - column:
-                  name: user_id
-                  type: bigint
-                  constraints:
-                    nullable: true
-                    foreignKeyName: fk_image_user
-                    references: users(id)
-              - column:
-                  name: ad_id
-                  type: bigint
-                  constraints:
-                    nullable: true
-                    foreignKeyName: fk_image_ad
-                    references: ads(id)

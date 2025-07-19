@@ -1,16 +1,13 @@
 package ru.skypro.homework.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.comments.Comment;
+import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.Comments;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.service.CommentsService;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/ads/{adId}/comments")
@@ -28,14 +25,14 @@ public class CommentsController {
     }
 
     @PostMapping
-    public ResponseEntity<Comment> addComment(@PathVariable Integer adId,
-                                              @RequestBody @Valid CreateOrUpdateComment req) {
+    public ResponseEntity<CommentDto> addComment(@PathVariable Integer adId,
+                                                 @RequestBody @Valid CreateOrUpdateComment req) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(commentsService.addComment(adId, req));
     }
 
     @PutMapping("/{commentId}")
-    public ResponseEntity<Comment> editComment(
+    public ResponseEntity<CommentDto> editComment(
             @PathVariable Integer adId,
             @PathVariable Integer commentId,
             @RequestBody @Valid CreateOrUpdateComment req

@@ -16,11 +16,11 @@ private Integer author;
 
 
 @Schema(description="Ссылка на картинку объявления", example="https://example.com/image.jpg")
-private Image image;
+private String image;
 
 
 @Schema(description="ID объявления", example="456")
-private Long pk;
+private Integer pk;
 
 
 @Schema(description="Цена объявления", example="15000")
