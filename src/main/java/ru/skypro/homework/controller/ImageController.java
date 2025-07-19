@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.service.ImageService;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Изображения")
@@ -18,28 +20,22 @@ public class ImageController {
 
     @Operation(summary = "Обновление аватара пользователя")
     @PatchMapping(value = "/users/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> updateUserImage(@RequestParam MultipartFile image) {
+    public ResponseEntity<Void> updateUserImage(@RequestParam MultipartFile image) throws IOException {
         imageService.uploadUserImage(image);
         return ResponseEntity.ok().build();
-    }
-
-    @Operation(summary = "Получение аватара пользователя")
-    @GetMapping(value = "/users/{userId}/image", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public ResponseEntity<byte[]> getUserImage(@PathVariable Integer userId) {
-        return ResponseEntity.ok(imageService.getImage(userId));
     }
 
     @Operation(summary = "Обновление изображения объявления")
     @PatchMapping(value = "/ads/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> updateAdImage(@PathVariable Integer id,
-                                              @RequestParam MultipartFile image) {
+                                              @RequestParam MultipartFile image) throws IOException {
         imageService.uploadAdImage(id, image);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Получение изображения объявления")
     @GetMapping(value = "/ads/{id}/image", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public ResponseEntity<byte[]> getAdImage(@PathVariable Integer id) {
+    public ResponseEntity<byte[]> getAdImage(@PathVariable Long id) {
         return ResponseEntity.ok(imageService.getImage(id));
     }
 }
