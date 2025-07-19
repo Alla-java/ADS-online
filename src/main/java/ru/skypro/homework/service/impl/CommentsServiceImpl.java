@@ -1,5 +1,6 @@
 package ru.skypro.homework.service.impl;
 
+import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.dto.comments.Comment;
 import ru.skypro.homework.dto.comments.Comments;
@@ -11,7 +12,7 @@ import ru.skypro.homework.service.CommentsService;
 import ru.skypro.homework.service.UserService;
 
 import java.util.List;
-
+@Service
 public class CommentsServiceImpl implements CommentsService {
     private final CommentRepository commentRepository;
     private final AdRepository adRepository;
