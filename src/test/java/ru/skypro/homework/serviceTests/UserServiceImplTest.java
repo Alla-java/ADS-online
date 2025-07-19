@@ -50,10 +50,7 @@ public class UserServiceImplTest {
      */
     @Test
     void updateUser_shouldThrowException() {
-        UpdateUser dto = new UpdateUser();
-        dto.setFirstName("Анна");
-        dto.setLastName("Иванова");
-        dto.setPhone("+7 (931) 123-45-67");
+        UpdateUser dto = new UpdateUser("Анна", "Ивановна", "+7 (931) 123-45-67");
 
         UnsupportedOperationException exception = assertThrows(
                 UnsupportedOperationException.class,
