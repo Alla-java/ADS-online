@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Schema(description="Комментарий к объявлению")
-public class Comment{
+public class CommentDto {
 
 @Schema(description="ID автора комментария", example="321")
 private Integer author;
@@ -17,7 +17,7 @@ private String authorImage;
 private String authorFirstName;
 
 @Schema(description="Дата и время создания комментария в миллисекундах с 00:00:00 01.01.1970", example="1657891234567")
-private Long createdAt;
+private Integer createdAt;
 
 @Schema(description="ID комментария", example="987")
 private Integer pk;

@@ -12,7 +12,7 @@ import java.awt.*;
 public class ExtendedAdDto{
 
 @Schema(description="ID объявления", example="101")
-private Long pk;
+private Integer pk;
 
 @Schema(description="Имя автора объявления", example="Иван")
 private String authorFirstName;
@@ -27,7 +27,7 @@ private String description;
 private String email;
 
 @Schema(description="Ссылка на картинку объявления", example="https://example.com/image.jpg")
-private Image image;
+private String image;
 
 @Schema(description="Телефон автора объявления", example="+7 900 123-45-67")
 private String phone;
