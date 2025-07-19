@@ -13,5 +13,5 @@ public class Comments{
 private Integer count;
 
 @Schema(description="Список комментариев")
-private List<Comment> results;
+private List<CommentDto> results;
 }

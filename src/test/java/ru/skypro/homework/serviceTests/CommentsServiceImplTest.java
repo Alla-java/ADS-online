@@ -3,11 +3,11 @@ package ru.skypro.homework.serviceTests;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import ru.skypro.homework.dto.comments.Comment;
+import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.Comments;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.mapper.CommentMapper;
-import ru.skypro.homework.model.CommentEntity;
+import ru.skypro.homework.model.Comment;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.UserService;
 import ru.skypro.homework.service.impl.CommentsServiceImpl;
@@ -46,23 +46,23 @@ public class CommentsServiceImplTest {
         CreateOrUpdateComment req = new CreateOrUpdateComment();
         req.setText("Test comment");
 
-        CommentEntity savedEntity = new CommentEntity();
+        Comment savedEntity = new Comment();
         savedEntity.setId(10L);
         savedEntity.setAuthor(user);
         savedEntity.setAd(ad);
         savedEntity.setText("Test comment");
         savedEntity.setCreatedAt(System.currentTimeMillis());
 
-        Comment dto = new Comment();
+        CommentDto dto = new CommentDto();
         dto.setPk(10);
         dto.setText("Test comment");
 
         when(adRepository.findById(adId)).thenReturn(Optional.of(ad));
         when(userService.getCurrentUser()).thenReturn(user);
-        when(commentRepository.save(any(CommentEntity.class))).thenReturn(savedEntity);
+        when(commentRepository.save(any(Comment.class))).thenReturn(savedEntity);
         when(commentMapper.commentIntoCommentDto(savedEntity)).thenReturn(dto);
 
-        Comment result = commentsService.addComment(adId.intValue(), req);
+        CommentDto result = commentsService.addComment(adId.intValue(), req);
 
         assertEquals(dto.getPk(), result.getPk());
         assertEquals(dto.getText(), result.getText());
@@ -71,10 +71,10 @@ public class CommentsServiceImplTest {
     @Test
     void testGetComments() {
         Long adId = 1L;
-        List<CommentEntity> commentEntities = List.of(new CommentEntity());
+        List<Comment> commentEntities = List.of(new Comment());
         Comments expectedDto = new Comments();
         expectedDto.setCount(1);
-        expectedDto.setResults(List.of(new Comment()));
+        expectedDto.setResults(List.of(new CommentDto()));
 
         when(commentRepository.findByAdId(adId)).thenReturn(commentEntities);
         when(commentMapper.listCommentIntoCommentsDto(commentEntities)).thenReturn(expectedDto);
@@ -90,11 +90,11 @@ public class CommentsServiceImplTest {
         CreateOrUpdateComment req = new CreateOrUpdateComment();
         req.setText("Updated comment");
 
-        CommentEntity entity = new CommentEntity();
+        Comment entity = new Comment();
         entity.setId(commentId);
         entity.setText("Old comment");
 
-        Comment expectedDto = new Comment();
+        CommentDto expectedDto = new CommentDto();
         expectedDto.setPk(commentId.intValue());
         expectedDto.setText("Updated comment");
 
@@ -102,7 +102,7 @@ public class CommentsServiceImplTest {
         when(commentRepository.save(entity)).thenReturn(entity);
         when(commentMapper.commentIntoCommentDto(entity)).thenReturn(expectedDto);
 
-        Comment result = commentsService.editComment(1, commentId.intValue(), req);
+        CommentDto result = commentsService.editComment(1, commentId.intValue(), req);
 
         assertEquals("Updated comment", result.getText());
     }

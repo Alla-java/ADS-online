@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
+      file: liquibase/createImages.yaml
+  - include:
       file: liquibase/scripts/scripts.sql

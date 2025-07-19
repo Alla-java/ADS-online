@@ -1,32 +1,34 @@
 package ru.skypro.homework.mapper;
 
-import ru.skypro.homework.dto.comments.Comment;
+import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.Comments;
-import ru.skypro.homework.model.CommentEntity;
+import ru.skypro.homework.model.Comment;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommentMapper {
-    public Comment commentIntoCommentDto (CommentEntity entity) {
-        Comment dto = new Comment();
+    public CommentDto commentIntoCommentDto (Comment entity) {
+        CommentDto dto = new CommentDto();
         dto.setPk(entity.getId().intValue());
         dto.setText(entity.getText());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setAuthor(entity.getAuthor().getId().intValue());
         dto.setAuthorFirstName(entity.getAuthor().getFirstName());
-        dto.setAuthorImage(entity.getAuthor().getImageUrl());
+        dto.setAuthorImage(entity.getAuthor().getImage() != null
+                ? "/images/" + entity.getAuthor().getImage().getId()
+                : null);
         return dto;
     }
 
-    public Comments listCommentIntoCommentsDto(List<CommentEntity> entities) {
-        List<Comment> commentDtos = entities.stream()
+    public Comments listCommentIntoCommentsDto(List<Comment> entities) {
+        List<CommentDto> commentDtoDtos = entities.stream()
                 .map(this::commentIntoCommentDto) // каждый CommentEntity → DTO
                 .collect(Collectors.toList());
 
         Comments comments = new Comments();
-        comments.setCount(commentDtos.size());
-        comments.setResults(commentDtos);
+        comments.setCount(commentDtoDtos.size());
+        comments.setResults(commentDtoDtos);
         return comments;
     }
 }
