@@ -1,41 +1,54 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.Comment;
-import ru.skypro.homework.dto.Comments;
-import ru.skypro.homework.dto.CreateOrUpdateComment;
+import ru.skypro.homework.dto.comments.Comment;
+import ru.skypro.homework.dto.comments.Comments;
+import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.service.CommentsService;
 
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/comments")
-public class CommentsController implements CommentsService {
+@RequestMapping("/ads/{adId}/comments")
+public class CommentsController {
 
-    @Operation(summary = "Получение комментариев объявления")
-    @GetMapping("/{adId}")
-    public Comments getComments(@PathVariable Integer adId) {
-        // Возвращаем заглушку
-        Comments comments = new Comments();
-        comments.setCount(0);
-        comments.setResults(new ArrayList<>());
-        return comments;
+    private final CommentsService commentsService;
+
+    public CommentsController(CommentsService commentsService) {
+        this.commentsService = commentsService;
     }
 
-    @Operation(summary = "Добавления комментария к объявлению")
-    @PostMapping("/{adId}")
-    public Comment addComment(@PathVariable Integer adId,
-                              @RequestBody CreateOrUpdateComment req) {
-        // Возвращаем заглушку
-        Comment comment = new Comment();
-        comment.setPk(1);
-        comment.setText(req.getText());
-        comment.setAuthor(123); // временно
-        comment.setAuthorFirstName("Demo");
-        comment.setAuthorImage("demo.png");
-        comment.setCreatedAt(System.currentTimeMillis());
-        return comment;
+    @GetMapping
+    public ResponseEntity<Comments> getComments(@PathVariable Integer adId) {
+        return ResponseEntity.ok(commentsService.getComments(adId));
     }
 
+    @PostMapping
+    public ResponseEntity<Comment> addComment(@PathVariable Integer adId,
+                                              @RequestBody @Valid CreateOrUpdateComment req) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(commentsService.addComment(adId, req));
+    }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Comment> editComment(
+            @PathVariable Integer adId,
+            @PathVariable Integer commentId,
+            @RequestBody @Valid CreateOrUpdateComment req
+    ) {
+        return ResponseEntity.ok(commentsService.editComment(adId, commentId, req));
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable Integer adId,
+            @PathVariable Integer commentId
+    ) {
+        commentsService.deleteComment(adId, commentId);
+        return ResponseEntity.noContent().build();
+    }
 }
