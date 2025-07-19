@@ -150,7 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Ad'
+                $ref: '#/components/schemas/AdDto'
         '401':
           description: Unauthorized
   /ads/{id}/comments:
@@ -226,7 +226,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExtendedAd'
+                $ref: '#/components/schemas/ExtendedAdDto'
         '401':
           description: Unauthorized
         '404':
@@ -275,7 +275,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Ad'
+                $ref: '#/components/schemas/AdDto'
         '403':
           description: Forbidden
         '401':
@@ -593,7 +593,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/Ad'
+            $ref: '#/components/schemas/AdDto'
     ExtendedAd:
       type: object
       properties:
