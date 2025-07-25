@@ -52,21 +52,19 @@ public class UserServiceImpl implements UserService{
     public void updateUserImage(MultipartFile imageFile) {
         try {
             User user = getCurrentUserFromSecurityContext();
+            Image image;
 
-            // Загрузка изображения и получение URL
-            String imageUrl = imageService.uploadUserImage(imageFile);
+            if (user.getImage() == null) {
+                // У пользователя ещё нет изображения — создаём новое
+                image = imageService.updateImage(imageFile); // сохраняет и возвращает Image
+            } else {
+                // Изображение уже есть — обновляем данные
+                image = imageService.updateImageWithoutSaveInDb(imageFile);
+                image.setId(user.getImage().getId()); // сохраняем под тем же ID
+                imageService.save(image); // сохраняем обновлённое изображение
+            }
 
-            // Парсим ID из URL
-            String imageIdStr = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-            Integer imageId = Integer.valueOf(imageIdStr);
-
-            // Получаем объект Image по ID
-            Image image = imageService.getImage(imageId);
-
-            // Назначаем изображение пользователю
             user.setImage(image);
-
-            // Сохраняем пользователя
             userRepository.save(user);
 
         } catch (IOException e) {
@@ -75,7 +73,7 @@ public class UserServiceImpl implements UserService{
     }
 
     // Вспомогательный метод для получения текущего авторизованного пользователя
-    private User getCurrentUserFromSecurityContext() {
+    public User getCurrentUserFromSecurityContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
             return userRepository.findUserByEmailIgnoreCase(email)

@@ -2,13 +2,14 @@ package ru.skypro.homework.serviceTests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Spy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.NewPassword;
@@ -23,15 +24,16 @@ import ru.skypro.homework.service.impl.UserServiceImpl;
 import ru.skypro.homework.repository.UserRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
     @InjectMocks
+    @Spy
     private UserServiceImpl userService;
 
     @Mock
@@ -52,13 +54,23 @@ public class UserServiceImplTest {
         mockUser = new User();
         mockUser.setEmail("test@example.com");
 
-        // Установка контекста безопасности
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken("test@example.com", null)
-        );
-
+        // Мокаем репозиторий для нужного пользователя
         when(userRepository.findUserByEmailIgnoreCase("test@example.com"))
                 .thenReturn(Optional.of(mockUser));
+
+        // Создаем UserDetails для SecurityContext
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
+                .withUsername("test@example.com")
+                .password("password")
+                .authorities(new ArrayList<>())
+                .build();
+
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(auth);
+        SecurityContextHolder.setContext(securityContext);
     }
 
     @Test //проверка обновления пароля пользователя
@@ -86,7 +98,8 @@ public class UserServiceImplTest {
     @Test //проверка обновления информации о пользователе
     void testUpdateUser() {
         UpdateUser updateUser = new UpdateUser();
-        doNothing().when(userMapper).updateUserIntoUser(mockUser, updateUser);
+
+        when(userMapper.updateUserIntoUser(mockUser, updateUser)).thenReturn(mockUser);
 
         userService.updateUser(updateUser);
 
@@ -94,29 +107,35 @@ public class UserServiceImplTest {
         verify(userRepository).save(mockUser);
     }
 
-    @Test //проверка обновления аватара пользователя
-    void testUpdateUserImage() {
+    @Test
+    void testUpdateUserImage() throws IOException {
+        // Подготовка мок-файла
         MultipartFile mockFile = mock(MultipartFile.class);
-        Image mockImage = new Image();
-        mockImage.setId(123);
         byte[] data = "fake-image".getBytes();
 
-        try {
-            // Мокаем getBytes(), он объявлен с throws IOException, поэтому ловим исключение внутри
-            when(mockFile.getBytes()).thenReturn(data);
-        } catch (IOException e) {
-            // Тут исключения не будет, так как мок просто возвращает данные
-            throw new RuntimeException(e);
-        }
-
+        when(mockFile.getBytes()).thenReturn(data);
         when(mockFile.getContentType()).thenReturn("image/png");
-        when(imageService.uploadUserImage(mockFile)).thenReturn("/images/123");
-        when(imageService.getImage(123)).thenReturn(mockImage);
 
+        // Подготовка изображения
+        Image newImage = new Image();
+        newImage.setId(123);
+        newImage.setData(data);
+        newImage.setMediaType("image/png");
+
+        // Мокаем текущего пользователя без изображения
+        User mockUser = new User();
+        doReturn(mockUser).when(userService).getCurrentUserFromSecurityContext();
+
+        // Мокаем создание и сохранение изображения
+        when(imageService.updateImage(mockFile)).thenReturn(newImage);
+
+        // Запуск тестируемого метода
         userService.updateUserImage(mockFile);
 
+        // Проверки
+        verify(imageService).updateImage(mockFile);
         verify(userRepository).save(mockUser);
-        assertEquals(mockImage, mockUser.getImage());
+        assertEquals(newImage, mockUser.getImage());
     }
 
     @Test //проверка, если пользователь не найден в базе по email
