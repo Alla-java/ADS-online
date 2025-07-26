@@ -19,6 +19,7 @@ import java.util.ArrayList;
 @Data
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
