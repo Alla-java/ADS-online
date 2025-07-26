@@ -18,7 +18,7 @@ import java.io.IOException;
 public class ImageController {
     private final ImageService imageService;
 
-    @Operation(summary = "Обновление аватара пользователя")
+    @Operation(summary = "Обновление аватара авторизованного пользователя")
     @PatchMapping(value = "/users/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> updateUserImage(@RequestParam MultipartFile image) throws IOException {
         imageService.uploadUserImage(image);
@@ -35,7 +35,7 @@ public class ImageController {
 
     @Operation(summary = "Получение изображения объявления")
     @GetMapping(value = "/ads/{id}/image", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public ResponseEntity<byte[]> getAdImage(@PathVariable Long id) {
+    public ResponseEntity<byte[]> getAdImage(@PathVariable Integer id) {
         return ResponseEntity.ok(imageService.getImage(id));
     }
 }

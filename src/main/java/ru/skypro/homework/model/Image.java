@@ -14,18 +14,21 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Lob
     @Column(columnDefinition = "bytea", nullable = false)
     private byte[] data;
 
     @Column(nullable = false)
     private String mediaType;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "ad_id")
-//    private Ad ad;
+   /*
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+   @OneToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "ad_id")
+   private Ad ad;
+
+   */
 }

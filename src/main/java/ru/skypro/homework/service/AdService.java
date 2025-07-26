@@ -10,15 +10,13 @@ public interface AdService{
 
 Ads getAllAds();
 
-AdDto addAd(CreateOrUpdateAd dto,MultipartFile image);
+AdDto addAd(CreateOrUpdateAd dto,MultipartFile image) throws Exception;
 
 ExtendedAdDto getAd(Integer id);
 
 void deleteAd(Integer id);
 
 AdDto updateAd(Integer id,CreateOrUpdateAd dto);
-
-byte[] updateImage(Integer id,MultipartFile image);
 
 Ads getMyAds();
 }

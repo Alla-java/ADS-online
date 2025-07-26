@@ -13,6 +13,4 @@ public interface UserService {
 
     void updateUser(UpdateUser updateDto); // новое имя
 
-    void updateUserImage(MultipartFile image);
-
 }

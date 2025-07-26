@@ -11,7 +11,7 @@ public interface ImageService {
 
     String uploadAdImage(Integer adId, MultipartFile image) throws IOException;
 
-    byte[] getImage(Long id);
+    byte[] getImage(Integer id);
 
 
 }
