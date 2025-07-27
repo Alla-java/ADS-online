@@ -6,6 +6,7 @@ import ru.skypro.homework.model.Ad;
 
 import javax.persistence.*;
 
+
 @Data
 @Entity
 @Table(name = "images")

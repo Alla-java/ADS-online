@@ -25,7 +25,7 @@ public boolean isOwnerOfAd(Integer adId){
             .orElse(false);
 }
 
-public boolean isOwnerOfComment(Long commentId){
+public boolean isOwnerOfComment(Integer commentId){
     var currentUser=userService.getUser();
     return commentRepository
             .findById(commentId)
