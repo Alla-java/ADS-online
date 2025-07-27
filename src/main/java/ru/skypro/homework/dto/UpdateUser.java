@@ -5,8 +5,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class UpdateUser {
     @Size(min = 3, max = 10, message = "Имя должно быть от 3 до 10 символов")
     @Schema(

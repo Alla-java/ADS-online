@@ -18,11 +18,11 @@ import ru.skypro.homework.service.AdService;
 @RestController
 @RequestMapping("/ads")
 @RequiredArgsConstructor
-@Tag(name="Объявления")
+@Tag(name = "Объявления")
 
-public class AdController{
+public class AdController {
 
-private final AdService adService;
+    private final AdService adService;
 
 @PreAuthorize("hasRole('USER')")
 @Operation(summary = "Получение всех объявлений")
@@ -77,4 +77,10 @@ public Ads getMyAds(){
     return adService.getMyAds();
 }
 
+    @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Получение объявлений авторизованного пользователя")
+    @GetMapping("/me")
+    public Ads getMyAds() {
+        return adService.getMyAds();
+    }
 }

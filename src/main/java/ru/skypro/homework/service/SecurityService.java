@@ -6,7 +6,7 @@ import ru.skypro.homework.repository.CommentRepository;
 
 @Component("securityService")
 public class SecurityService{
-
+  
 private final AdRepository adRepository;
 private final CommentRepository commentRepository;
 private final UserService userService;
@@ -32,5 +32,6 @@ public boolean isOwnerOfComment(Long commentId){
             .map(comment->comment.getAuthor().getId().equals(currentUser.getId()))
             .orElse(false);
 }
+
 
 }

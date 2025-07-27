@@ -1,13 +1,17 @@
 package ru.skypro.homework.serviceTests;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.skypro.homework.dto.comments.CommentDto;
 import ru.skypro.homework.dto.comments.Comments;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.mapper.CommentMapper;
+import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Comment;
+
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.UserService;
@@ -21,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class CommentsServiceImplTest {
     @Mock
     private CommentRepository commentRepository;
@@ -39,20 +44,20 @@ public class CommentsServiceImplTest {
 
     @Test
     void testAddComment() {
-        Long adId = 1L;
+        Integer adId = 1;
         Ad ad = new Ad();
         User user = new User();
-        user.setId(100L);
+        user.setId(100);
 
         CreateOrUpdateComment req = new CreateOrUpdateComment();
         req.setText("Test comment");
 
         Comment savedEntity = new Comment();
-        savedEntity.setId(10L);
+        savedEntity.setId(10);
         savedEntity.setAuthor(user);
         savedEntity.setAd(ad);
         savedEntity.setText("Test comment");
-        savedEntity.setCreatedAt(System.currentTimeMillis());
+        savedEntity.setCreatedAt((int) System.currentTimeMillis());
 
         CommentDto dto = new CommentDto();
         dto.setPk(10);
@@ -71,7 +76,7 @@ public class CommentsServiceImplTest {
 
     @Test
     void testGetComments() {
-        Long adId = 1L;
+        Integer adId = 1;
         List<Comment> commentEntities = List.of(new Comment());
         Comments expectedDto = new Comments();
         expectedDto.setCount(1);
@@ -87,7 +92,7 @@ public class CommentsServiceImplTest {
 
     @Test
     void testEditComment() {
-        Long commentId = 2L;
+        Integer commentId = 2;
         CreateOrUpdateComment req = new CreateOrUpdateComment();
         req.setText("Updated comment");
 
@@ -110,7 +115,7 @@ public class CommentsServiceImplTest {
 
     @Test
     void testDeleteComment() {
-        Long commentId = 5L;
+        Integer commentId = 5;
 
         doNothing().when(commentRepository).deleteById(commentId);
 
