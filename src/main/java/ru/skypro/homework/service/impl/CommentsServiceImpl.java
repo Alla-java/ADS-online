@@ -38,7 +38,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public CommentDto addComment(Integer adId, CreateOrUpdateComment req) {
-        Ad ad = adRepository.findById(adId.longValue())
+        Ad ad = adRepository.findById(adId.intValue())
                 .orElseThrow(() -> new RuntimeException("Объявление не найдено"));
         UserDto authorDto = userService.getUser();
         User author = userMapper.userDtoIntoUser(authorDto);
@@ -55,13 +55,13 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public Comments getComments(Integer adId) {
-        List<Comment> entities = commentRepository.findByAdId(adId.longValue());
+        List<Comment> entities = commentRepository.findByAdId(adId.intValue());
         return commentMapper.listCommentIntoCommentsDto(entities);
     }
 
     @Override
     public CommentDto editComment(Integer adId, Integer commentId, CreateOrUpdateComment req) {
-        Comment comment = commentRepository.findById(commentId.longValue())
+        Comment comment = commentRepository.findById(commentId.intValue())
                 .orElseThrow(() -> new RuntimeException("Комментарий не найден"));
 
         comment.setText(req.getText());
@@ -72,6 +72,6 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public void deleteComment(Integer adId, Integer commentId) {
-        commentRepository.deleteById(commentId.longValue());
+        commentRepository.deleteById(commentId.intValue());
     }
 }

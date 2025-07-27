@@ -9,7 +9,6 @@ public class SecurityService {
     private final AdRepository adRepository;
     private final CommentRepository commentRepository;
     private final UserService userService;
-
     public SecurityService(AdRepository adRepository, CommentRepository commentRepository, UserService userService) {
         this.adRepository = adRepository;
         this.commentRepository = commentRepository;
@@ -17,14 +16,14 @@ public class SecurityService {
     }
 
     // Проверка на то что объявление пренадлежит пользователю
-    public boolean isOwnerOfAd(Long adId) {
+    public boolean isOwnerOfAd(Integer adId) {
         var currentUser = userService.getUser();
         return adRepository.findById(adId)
                 .map(ad -> ad.getAuthor().getId().equals(currentUser.getId()))
                 .orElse(false);
     }
     // Проверка на то что комментарий пренадлежит пользователю
-    public boolean isOwnerOfComment(Long commentId) {
+    public boolean isOwnerOfComment(Integer commentId) {
     var currentUser = userService.getUser();
     return commentRepository.findById(commentId)
         .map(comment -> comment.getAuthor().getId().equals(currentUser.getId()))
