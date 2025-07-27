@@ -48,8 +48,6 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
-
-    // Вспомогательный метод для получения текущего авторизованного пользователя
     public User getCurrentUserFromSecurityContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();

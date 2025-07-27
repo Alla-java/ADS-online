@@ -11,6 +11,8 @@ import javax.validation.constraints.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description="DTO для создания или обновления объявления")
 public class CreateOrUpdateAd{
 

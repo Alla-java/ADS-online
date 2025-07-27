@@ -38,7 +38,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public CommentDto addComment(Integer adId, CreateOrUpdateComment req) {
-        Ad ad = adRepository.findById(adId.intValue())
+        Ad ad = adRepository.findById(adId)
                 .orElseThrow(() -> new RuntimeException("Объявление не найдено"));
         UserDto authorDto = userService.getUser();
         User author = userMapper.userDtoIntoUser(authorDto);
@@ -47,7 +47,7 @@ public class CommentsServiceImpl implements CommentsService {
         entity.setAd(ad);
         entity.setAuthor(author);
         entity.setText(req.getText());
-        entity.setCreatedAt(Math.toIntExact(System.currentTimeMillis()));
+        entity.setCreatedAt((int) (System.currentTimeMillis() / 1000));
 
         Comment saved = commentRepository.save(entity);
         return commentMapper.commentIntoCommentDto(saved);
@@ -55,13 +55,13 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public Comments getComments(Integer adId) {
-        List<Comment> entities = commentRepository.findByAdId(adId.intValue());
+        List<Comment> entities = commentRepository.findByAdId(adId);
         return commentMapper.listCommentIntoCommentsDto(entities);
     }
 
     @Override
     public CommentDto editComment(Integer adId, Integer commentId, CreateOrUpdateComment req) {
-        Comment comment = commentRepository.findById(commentId.intValue())
+        Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Комментарий не найден"));
 
         comment.setText(req.getText());
@@ -72,6 +72,6 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public void deleteComment(Integer adId, Integer commentId) {
-        commentRepository.deleteById(commentId.intValue());
+        commentRepository.deleteById(commentId);
     }
 }
