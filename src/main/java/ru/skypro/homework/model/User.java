@@ -16,6 +16,7 @@ import java.util.Objects;
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

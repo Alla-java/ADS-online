@@ -4,8 +4,8 @@
 
 CREATE TABLE users
 (
-    id            INTEGER PRIMARY KEY,
-    email         VARCHAR(255) UNIQUE NOT NULL,
+    id            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    email      VARCHAR(255) UNIQUE NOT NULL,
     first_name    VARCHAR(255),
     last_name     VARCHAR(255),
     password      VARCHAR(255),
@@ -19,7 +19,7 @@ CREATE TABLE users
 --changeset kyakovlev: 2
 CREATE TABLE ads
 (
-    id          INTEGER PRIMARY KEY,
+    id          INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title       VARCHAR(255),
     description VARCHAR(255),
     price       INT,
@@ -33,7 +33,7 @@ CREATE TABLE ads
 --changeset ikanashnik: 3
 CREATE TABLE comments
 (
-    id         INTEGER PRIMARY KEY,
+    id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id    INTEGER NOT NULL,
     ad_id      INTEGER,
     created_at INTEGER,
@@ -42,3 +42,5 @@ CREATE TABLE comments
     FOREIGN KEY (ad_id) REFERENCES ads (id)
         ON DELETE CASCADE
 );
+
+

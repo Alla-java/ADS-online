@@ -42,12 +42,4 @@ public class UserController {
         userService.updateUser(updateDto);
     }
 
-    @Operation(summary = "Обновление аватара авторизованного пользователя")
-    @PatchMapping("/me/image")
-    public void updateUserImage(
-            @Parameter(description = "Файл аватара пользователя", required = true)
-            @RequestParam("image") MultipartFile image
-    ) {
-        userService.updateUserImage(image);
-    }
 }

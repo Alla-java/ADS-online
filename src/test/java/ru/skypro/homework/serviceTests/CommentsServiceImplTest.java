@@ -11,7 +11,7 @@ import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Comment;
-import ru.skypro.homework.model.User;
+
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.UserService;

@@ -80,4 +80,3 @@ public class UserServiceImpl implements UserService{
                     .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + email));
     }
 }
-

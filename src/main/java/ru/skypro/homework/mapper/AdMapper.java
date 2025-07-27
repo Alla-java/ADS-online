@@ -10,7 +10,7 @@ import ru.skypro.homework.model.User;
 @Component
 public class AdMapper {
 
-public AdDto adIntoAdtoDto(Ad ad) {
+public AdDto adIntoAdDto(Ad ad) {
     return AdDto.builder()
             .pk(ad.getId())
             .title(ad.getTitle())
