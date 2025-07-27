@@ -8,6 +8,6 @@ import ru.skypro.homework.model.Ad;
 import java.util.List;
 
 @Repository
-public interface AdRepository extends JpaRepository<Ad, Long>{
+public interface AdRepository extends JpaRepository<Ad, Integer>{
 List<Ad> findAllByAuthorId(Integer authorId);
 }
