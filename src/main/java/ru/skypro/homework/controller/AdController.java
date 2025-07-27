@@ -77,10 +77,5 @@ public Ads getMyAds(){
     return adService.getMyAds();
 }
 
-    @PreAuthorize("hasRole('USER')")
-    @Operation(summary = "Получение объявлений авторизованного пользователя")
-    @GetMapping("/me")
-    public Ads getMyAds() {
-        return adService.getMyAds();
-    }
+
 }

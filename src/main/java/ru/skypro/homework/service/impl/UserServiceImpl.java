@@ -48,29 +48,6 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
-    @Override
-    public void updateUserImage(MultipartFile imageFile) {
-        try {
-            User user = getCurrentUserFromSecurityContext();
-            Image image;
-
-            if (user.getImage() == null) {
-                // У пользователя ещё нет изображения — создаём новое
-                image = imageService.updateImage(imageFile); // сохраняет и возвращает Image
-            } else {
-                // Изображение уже есть — обновляем данные
-                image = imageService.updateImageWithoutSaveInDb(imageFile);
-                image.setId(user.getImage().getId()); // сохраняем под тем же ID
-                imageService.save(image); // сохраняем обновлённое изображение
-            }
-
-            user.setImage(image);
-            userRepository.save(user);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Не удалось загрузить изображение пользователя", e);
-        }
-    }
 
     // Вспомогательный метод для получения текущего авторизованного пользователя
     public User getCurrentUserFromSecurityContext() {
