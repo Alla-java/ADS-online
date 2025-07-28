@@ -1,6 +1,7 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class ImageServiceImpl implements ImageService {
     private final AdRepository adRepository;
     private final UserRepository userRepository;
 
+    @Value("${path.images}")
+    private  String images;
+
     @Override
     public String uploadUserImage(MultipartFile image) throws IOException {
 
@@ -41,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
         user.setImage(savedImage);
         userRepository.save(user);
 
-        return "/images/" + savedImage.getId();
+        return images + savedImage.getId();
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ImageServiceImpl implements ImageService {
         ad.setImage(savedImage);
         adRepository.save(ad);
 
-        return "/images/" + savedImage.getId();
+        return images + savedImage.getId();
     }
 
     @Override

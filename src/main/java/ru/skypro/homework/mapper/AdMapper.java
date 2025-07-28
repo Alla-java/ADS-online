@@ -1,5 +1,6 @@
 package ru.skypro.homework.mapper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
@@ -10,12 +11,15 @@ import ru.skypro.homework.model.User;
 @Component
 public class AdMapper {
 
+@Value("${path.images}")
+private  String images;
+
 public AdDto adIntoAdDto(Ad ad) {
     return AdDto.builder()
             .pk(ad.getId())
             .title(ad.getTitle())
             .price(ad.getPrice())
-            .image(ad.getImage() != null ? "/images/" + ad.getImage().getId() : null)
+            .image(ad.getImage() != null ? images + ad.getImage().getId() : null)
             .author(ad.getAuthor().getId())
             .build();
 }
@@ -26,7 +30,7 @@ public ExtendedAdDto toExtendedDto(Ad ad) {
             .title(ad.getTitle())
             .description(ad.getDescription())
             .price(ad.getPrice())
-            .image(ad.getImage() != null ? "/images/" + ad.getImage().getId() : null)
+            .image(ad.getImage() != null ? images + ad.getImage().getId() : null)
             .email(ad.getAuthor().getEmail())
             .phone(ad.getAuthor().getPhone())
             .authorFirstName(ad.getAuthor().getFirstName())

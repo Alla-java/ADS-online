@@ -38,4 +38,12 @@ public class ImageController {
     public ResponseEntity<byte[]> getAdImage(@PathVariable Integer id) {
         return ResponseEntity.ok(imageService.getImage(id));
     }
+
+    @Operation(summary = "Получение изображения объявления")
+    @GetMapping(value = "/images/{id}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public ResponseEntity<byte[]> getImage(@PathVariable Integer id) {
+        System.out.println("картинка");
+        return ResponseEntity.ok(imageService.getImage(id));
+
+    }
 }

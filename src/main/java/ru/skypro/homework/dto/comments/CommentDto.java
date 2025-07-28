@@ -2,7 +2,9 @@ package ru.skypro.homework.dto.comments;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
+@Accessors(chain=true)
 @Data
 @Schema(description="Комментарий к объявлению")
 public class CommentDto {

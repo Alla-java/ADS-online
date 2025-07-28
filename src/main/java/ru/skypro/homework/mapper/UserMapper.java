@@ -1,5 +1,6 @@
 package ru.skypro.homework.mapper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.UserDto;
@@ -8,6 +9,9 @@ import ru.skypro.homework.model.User;
 @Component
 public class UserMapper{
 
+@Value("${path.images}")
+private  String images;
+
 public UserDto userIntoUserDto(User user){
     return new UserDto(user.getId(),
      user.getEmail(),
@@ -15,7 +19,7 @@ public UserDto userIntoUserDto(User user){
      user.getLastName(),
      user.getPhone(),
      user.getRole(),
-     user.getImage()==null?null:("/images/"+user.getImage().getId()));
+     user.getImage()==null?null:(images +user.getImage().getId()));
 }
 
 public User updateUserIntoUser(User user,UpdateUser updateUser){
