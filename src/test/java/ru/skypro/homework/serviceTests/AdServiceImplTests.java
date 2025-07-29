@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.Ads;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
-import ru.skypro.homework.dto.ads.ExtendedAdDto;
+import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.mapper.AdMapper;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.Image;
@@ -160,12 +160,12 @@ void deleteAd_shouldThrowAccessDeniedIfNotOwner() {
 @Test
 void getAd_shouldReturnExtendedAdDto() {
     when(adRepository.findById(1)).thenReturn(Optional.of(testAd));
-    ExtendedAdDto extendedAdDto = new ExtendedAdDto();
-    when(adMapper.toExtendedDto(testAd)).thenReturn(extendedAdDto);
+    ExtendedAd extendedAd = new ExtendedAd();
+    when(adMapper.toExtendedDto(testAd)).thenReturn(extendedAd);
 
-    ExtendedAdDto result = adService.getAd(1);
+    ExtendedAd result = adService.getAd(1);
 
-    assertEquals(extendedAdDto, result);
+    assertEquals(extendedAd, result);
 }
 
 @Test

@@ -1,10 +1,10 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.Ads;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
-import ru.skypro.homework.dto.ads.ExtendedAdDto;
+import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.service.AdService;
 
 import static ru.skypro.homework.model.Roles.USER;
@@ -36,26 +36,19 @@ public Ads getAllAds(){
 
 @PreAuthorize("hasRole('USER')")
 @Operation(summary = "Добавление объявления")
+@ResponseStatus(HttpStatus.CREATED)
 @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public AdDto addAd(
- @RequestParam String title,
- @RequestParam Integer price,
- @RequestParam String description,
- @RequestPart MultipartFile image) throws Exception {
+        @RequestPart("properties") CreateOrUpdateAd properties,
+        @RequestPart("image") MultipartFile image) throws Exception {
 
-    CreateOrUpdateAd dto = CreateOrUpdateAd.builder()
-                            .title(title)
-                            .price(price)
-                            .description(description)
-                            .build();
-
-    return adService.addAd(dto, image);
+    return adService.addAd(properties, image);
 }
 
 @PreAuthorize(USER)
 @Operation(summary = "Получение информации об объявлении")
 @GetMapping("/{id}")
-public ExtendedAdDto getAd(@PathVariable Integer id){
+public ExtendedAd getAd(@PathVariable Integer id){
     return adService.getAd(id);
 }
 

@@ -37,10 +37,10 @@ public class UserController {
 
     @Operation(summary = "Обновление информации об авторизованном пользователе")
     @PatchMapping("/me")
-    public void updateUserInfo(
+    public UpdateUser updateUserInfo(
             @Valid @RequestBody UpdateUser updateDto
     ) {
-        userService.updateUser(updateDto);
+        return userService.updateUser(updateDto);
     }
 
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description="Расширенное описание объявления")
-public class ExtendedAdDto{
+public class ExtendedAd {
 
 @Schema(description="ID объявления", example="101")
 private Integer pk;

@@ -3,6 +3,7 @@ package ru.skypro.homework.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,13 @@ public class ImageController {
 
     @Operation(summary = "Обновление изображения объявления")
     @PatchMapping(value = "/ads/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> updateAdImage(@PathVariable Integer id,
+    public ResponseEntity<byte[]> updateAdImage(@PathVariable Integer id,
                                               @RequestParam MultipartFile image) throws IOException {
         imageService.uploadAdImage(id, image);
-        return ResponseEntity.ok().build();
+        byte[] imageData = imageService.getImage(id);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(imageData);
     }
 
     @Operation(summary = "Получение изображения объявления")

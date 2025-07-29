@@ -42,10 +42,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUser(UpdateUser updateDto) {
+    public UpdateUser updateUser(UpdateUser updateDto) {
         User user = getCurrentUserFromSecurityContext();
-        userMapper.updateUserIntoUser(user, updateDto);
-        userRepository.save(user);
+        user = userMapper.updateUserIntoUser(user, updateDto);
+        User savedUser = userRepository.save(user);
+        return userMapper.userIntoUpdateUser(savedUser);
     }
 
     public User getCurrentUserFromSecurityContext() {

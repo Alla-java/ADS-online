@@ -10,10 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.Ads;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
-import ru.skypro.homework.dto.ads.ExtendedAdDto;
+import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.SecurityService;
 
@@ -40,6 +41,7 @@ private SecurityService securityService;
 
 @Autowired
 private ObjectMapper objectMapper;
+
 
 @Test
 @WithMockUser(roles = "USER")
@@ -71,41 +73,58 @@ void getAllAds_ReturnsAds() throws Exception {
 }
 
 
+
 @Test
 @WithMockUser(roles = "USER")
 void addAd_ReturnsCreatedAd() throws Exception {
-    MockMultipartFile image = new MockMultipartFile(
-     "image", "test.png",
-     MediaType.IMAGE_PNG_VALUE, "image".getBytes()
+    CreateOrUpdateAd properties = new CreateOrUpdateAd();
+    properties.setTitle("Test Ad");
+    properties.setPrice(100);
+    properties.setDescription("Test Description");
+
+    String propertiesJson = objectMapper.writeValueAsString(properties);
+
+    MockMultipartFile jsonPart = new MockMultipartFile(
+            "properties",
+            "",
+            MediaType.APPLICATION_JSON_VALUE,
+            propertiesJson.getBytes()
     );
 
-    AdDto createdAd = AdDto.builder()
-                       .pk(1)
-                       .title("title")
-                       .price(100)
-                       .author(1)
-                       .image("imageUrl")
-                       .build();
+    MockMultipartFile imagePart = new MockMultipartFile(
+            "image",
+            "test.png",
+            MediaType.IMAGE_PNG_VALUE,
+            "test image content".getBytes()
+    );
 
-    Mockito.when(adService.addAd(any(CreateOrUpdateAd.class), any()))
-     .thenReturn(createdAd);
+    AdDto expectedAdDto = AdDto.builder()
+            .pk(1)
+            .title("Test Ad")
+            .price(100)
+            .author(1)
+            .image("/images/test.png")
+            .build();
+
+    Mockito.when(adService.addAd(any(CreateOrUpdateAd.class), any(MultipartFile.class)))
+            .thenReturn(expectedAdDto);
 
     mockMvc.perform(multipart("/ads")
-                     .file(image)
-                     .with(csrf())
-                     .param("title", "title")
-                     .param("price", "100")
-                     .param("description", "description"))
-     .andExpect(status().isOk())
-     .andExpect(jsonPath("$.pk").value(1))
-     .andExpect(jsonPath("$.title").value("title"))
-     .andExpect(jsonPath("$.price").value(100));
+                    .file(jsonPart)
+                    .file(imagePart)
+                    .with(csrf()))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.pk").value(1))
+            .andExpect(jsonPath("$.title").value("Test Ad"))
+            .andExpect(jsonPath("$.price").value(100))
+            .andExpect(jsonPath("$.author").value(1))
+            .andExpect(jsonPath("$.image").value("/images/test.png"));
 }
 
 @Test
 @WithMockUser(roles = "USER")
 void getAd_ReturnsExtendedAdDto() throws Exception {
-    ExtendedAdDto extendedAdDto = ExtendedAdDto.builder()
+    ExtendedAd extendedAd = ExtendedAd.builder()
                                    .pk(1)
                                    .title("Title")
                                    .description("Desc")
@@ -117,7 +136,7 @@ void getAd_ReturnsExtendedAdDto() throws Exception {
                                    .image("imageUrl")
                                    .build();
 
-    Mockito.when(adService.getAd(1)).thenReturn(extendedAdDto);
+    Mockito.when(adService.getAd(1)).thenReturn(extendedAd);
 
     mockMvc.perform(get("/ads/1"))
      .andExpect(status().isOk())

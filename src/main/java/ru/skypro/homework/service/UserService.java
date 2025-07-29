@@ -11,6 +11,6 @@ public interface UserService {
 
     UserDto getUser(); // новое имя
 
-    void updateUser(UpdateUser updateDto); // новое имя
+    UpdateUser updateUser(UpdateUser updateDto); // новое имя
 
 }
