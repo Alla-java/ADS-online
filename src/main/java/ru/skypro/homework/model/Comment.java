@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "comments")
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

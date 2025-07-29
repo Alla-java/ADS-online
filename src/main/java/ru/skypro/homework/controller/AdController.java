@@ -15,7 +15,10 @@ import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ads.ExtendedAdDto;
 import ru.skypro.homework.service.AdService;
 
+import static ru.skypro.homework.model.Roles.USER;
+
 @RestController
+@CrossOrigin(value = "http://localhost:3000")
 @RequestMapping("/ads")
 @RequiredArgsConstructor
 @Tag(name = "Объявления")
@@ -49,7 +52,7 @@ public AdDto addAd(
     return adService.addAd(dto, image);
 }
 
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize(USER)
 @Operation(summary = "Получение информации об объявлении")
 @GetMapping("/{id}")
 public ExtendedAdDto getAd(@PathVariable Integer id){
