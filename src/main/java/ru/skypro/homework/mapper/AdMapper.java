@@ -3,7 +3,7 @@ package ru.skypro.homework.mapper;
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.ads.AdDto;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
-import ru.skypro.homework.dto.ads.ExtendedAdDto;
+import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.User;
 
@@ -20,8 +20,8 @@ public AdDto adIntoAdDto(Ad ad) {
             .build();
 }
 
-public ExtendedAdDto toExtendedDto(Ad ad) {
-    return ExtendedAdDto.builder()
+public ExtendedAd toExtendedDto(Ad ad) {
+    return ExtendedAd.builder()
             .pk(ad.getId())
             .title(ad.getTitle())
             .description(ad.getDescription())

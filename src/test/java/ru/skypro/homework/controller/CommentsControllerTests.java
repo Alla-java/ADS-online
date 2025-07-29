@@ -110,7 +110,7 @@ void editComment_ShouldReturnUpdatedComment() throws Exception {
     Mockito.when(commentsService.editComment(eq(adId), eq(commentId), any(CreateOrUpdateComment.class)))
      .thenReturn(updatedComment);
 
-    mockMvc.perform(put("/ads/{adId}/comments/{commentId}", adId, commentId)
+    mockMvc.perform(patch("/ads/{adId}/comments/{commentId}", adId, commentId)
                      .contentType(MediaType.APPLICATION_JSON)
                      .content(objectMapper.writeValueAsString(req))
                      .with(csrf())

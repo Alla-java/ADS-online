@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.skypro.homework.dto.NewPassword;
+import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.mapper.UserMapper;
@@ -92,29 +93,58 @@ void getUser_shouldReturnUserDto() {
 
 @Test
 void updateUser_shouldUpdateAndSaveUser() {
+
     UpdateUser updateUser = new UpdateUser();
     updateUser.setFirstName("John");
     updateUser.setLastName("Doe");
     updateUser.setPhone("+7 (123) 456-78-90");
 
-    // Just verify that mapper updates the user entity
-    doAnswer(invocation -> {
-        User u = invocation.getArgument(0);
-        UpdateUser dto = invocation.getArgument(1);
-        u.setFirstName(dto.getFirstName());
-        u.setLastName(dto.getLastName());
-        u.setPhone(dto.getPhone());
-        return null;
-    }).when(userMapper).updateUserIntoUser(eq(user), eq(updateUser));
+    User testUser = new User();
+    testUser.setId(1);
+    testUser.setEmail("test@example.com");
+    testUser.setFirstName("OldFirstName");
+    testUser.setLastName("OldLastName");
+    testUser.setPhone("+0 (000) 000-00-00");
+    testUser.setRole(Role.USER);
 
-    userService.updateUser(updateUser);
+    User updatedUser = new User();
+    updatedUser.setId(1);
+    updatedUser.setEmail("test@example.com");
+    updatedUser.setFirstName("John");
+    updatedUser.setLastName("Doe");
+    updatedUser.setPhone("+7 (123) 456-78-90");
+    updatedUser.setRole(Role.USER);
 
-    verify(userMapper).updateUserIntoUser(user, updateUser);
-    verify(userRepository).save(user);
+    UpdateUser expectedResult = new UpdateUser();
+    expectedResult.setFirstName("John");
+    expectedResult.setLastName("Doe");
+    expectedResult.setPhone("+7 (123) 456-78-90");
 
-    assertEquals("John", user.getFirstName());
-    assertEquals("Doe", user.getLastName());
-    assertEquals("+7 (123) 456-78-90", user.getPhone());
+    when(securityContext.getAuthentication()).thenReturn(authentication);
+    when(authentication.getName()).thenReturn("test@example.com");
+    when(userRepository.findUserByEmailIgnoreCase("test@example.com"))
+            .thenReturn(Optional.of(testUser));
+
+    when(userMapper.updateUserIntoUser(testUser, updateUser))
+            .thenReturn(updatedUser);
+
+    when(userRepository.save(updatedUser))
+            .thenReturn(updatedUser);
+
+    when(userMapper.userIntoUpdateUser(updatedUser))
+            .thenReturn(expectedResult);
+
+    UpdateUser result = userService.updateUser(updateUser);
+
+    assertNotNull(result, "Результат не должен быть null");
+    assertEquals("John", result.getFirstName());
+    assertEquals("Doe", result.getLastName());
+    assertEquals("+7 (123) 456-78-90", result.getPhone());
+
+    verify(userRepository).findUserByEmailIgnoreCase("test@example.com");
+    verify(userMapper).updateUserIntoUser(testUser, updateUser);
+    verify(userRepository).save(updatedUser);
+    verify(userMapper).userIntoUpdateUser(updatedUser);
 }
 
 @Test

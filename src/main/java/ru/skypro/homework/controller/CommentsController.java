@@ -39,7 +39,7 @@ public class CommentsController {
 
     @PreAuthorize("hasRole('ADMIN') or @securityService.isOwnerOfComment(#id)")
     @Operation(summary = "Редактирование комментария")
-    @PutMapping("/{commentId}")
+    @PatchMapping("/{commentId}")
     public ResponseEntity<CommentDto> editComment(
             @PathVariable Integer adId,
             @PathVariable Integer commentId,

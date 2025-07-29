@@ -61,6 +61,6 @@ void updateAdImage_ShouldReturnOk() throws Exception {
                      })
                      .with(csrf())
      )
-     .andExpect(status().isOk());
+     .andExpect(status().isCreated());
 }
 }

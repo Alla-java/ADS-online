@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.Role;
-import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.dto.ads.*;
 
 import ru.skypro.homework.mapper.AdMapper;
@@ -19,7 +18,6 @@ import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AdService;
-import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
@@ -78,7 +76,7 @@ public AdDto updateAd(Integer id,CreateOrUpdateAd dto){
 }
 
 @Override
-public ExtendedAdDto getAd(Integer id){
+public ExtendedAd getAd(Integer id){
     Ad ad=getAdOrThrow(id);
     return adMapper.toExtendedDto(ad);
 }
