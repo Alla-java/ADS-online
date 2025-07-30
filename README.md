@@ -96,3 +96,9 @@ src/
 │       └── application.properties
 └── test/                 # Тесты
 ```
+
+## 👥 Команда разработчиков
+- **Кирилл Яковлев** – Backend Developer (Spring Boot, ORM, Maven, PostgreeSQL)
+- **Алла Зацепина** – Backend Developer (Spring Boot, ORM, Maven, PostgreeSQL)
+- **Игорь Канашник** – Backend Developer (Spring Boot, ORM, Maven, PostgreeSQL)
+- **Дмитрий Гаврилин** – Backend Developer (Spring Boot, ORM, Maven, PostgreeSQL)
