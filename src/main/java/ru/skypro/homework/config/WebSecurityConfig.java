@@ -13,9 +13,16 @@ import ru.skypro.homework.dto.Role;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/**
+ * Конфигурация безопасности Spring приложения.
+ * Настраивает аутентификацию, авторизацию, CORS и CSRF защиту.
+ */
 @Configuration
 public class WebSecurityConfig {
 
+    /**
+     * Список URL-путей, доступных без аутентификации
+     */
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
@@ -25,7 +32,13 @@ public class WebSecurityConfig {
             "/register",
      "/ads"
     };
-  
+
+    /**
+     * Настраивает цепочку фильтров безопасности HTTP
+     * @param http объект конфигурации безопасности
+     * @return сконфигурированная цепочка фильтров
+     * @throws Exception при ошибках конфигурации
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
@@ -43,6 +56,10 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    /**
+     * Создает кодировщик паролей
+     * @return экземпляр BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

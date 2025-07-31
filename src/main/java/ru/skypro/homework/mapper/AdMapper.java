@@ -8,12 +8,20 @@ import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.model.Ad;
 import ru.skypro.homework.model.User;
 
+/**
+ * Маппер для преобразования между сущностью Ad и DTO
+ */
 @Component
 public class AdMapper {
 
 @Value("${path.images}")
 private  String images;
 
+/**
+ * Преобразование Ad в AdDto
+ * @param ad сущность объявления
+ * @return DTO объявления
+ */
 public AdDto adIntoAdDto(Ad ad) {
     return AdDto.builder()
             .pk(ad.getId())
@@ -24,6 +32,11 @@ public AdDto adIntoAdDto(Ad ad) {
             .build();
 }
 
+/**
+ * Преобразование Ad в ExtendedAd
+ * @param ad сущность объявления
+ * @return расширенное DTO объявления
+ */
 public ExtendedAd toExtendedDto(Ad ad) {
     return ExtendedAd.builder()
             .pk(ad.getId())
@@ -38,6 +51,12 @@ public ExtendedAd toExtendedDto(Ad ad) {
             .build();
 }
 
+/**
+ * Создание сущности Ad из DTO
+ * @param dto DTO для создания объявления
+ * @param author автор объявления
+ * @return сущность объявления
+ */
 public Ad toEntity(CreateOrUpdateAd dto, User author) {
     return Ad.builder()
             .title(dto.getTitle())
@@ -47,6 +66,11 @@ public Ad toEntity(CreateOrUpdateAd dto, User author) {
             .build();
 }
 
+/**
+ * Обновление сущности Ad из DTO
+ * @param ad сущность объявления для обновления
+ * @param dto DTO с новыми данными
+ */
 public void updateEntity(Ad ad, CreateOrUpdateAd dto) {
     ad.setTitle(dto.getTitle());
     ad.setDescription(dto.getDescription());

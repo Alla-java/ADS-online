@@ -11,6 +11,10 @@ import ru.skypro.homework.dto.comments.Comments;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.service.CommentsService;
 
+/**
+ * Контроллер для работы с комментариями к объявлениям.
+ * Обеспечивает создание, чтение, обновление и удаление комментариев.
+ */
 @RestController
 @CrossOrigin(value = "http://localhost:3000")
 @RequestMapping("/ads/{adId}/comments")
@@ -22,6 +26,11 @@ public class CommentsController {
         this.commentsService = commentsService;
     }
 
+    /**
+     * Получает все комментарии для указанного объявления
+     * @param adId идентификатор объявления
+     * @return ResponseEntity с объектом Comments, содержащим список комментариев
+     */
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Получение всех комментариев к объявлению")
     @GetMapping
@@ -29,6 +38,12 @@ public class CommentsController {
         return ResponseEntity.ok(commentsService.getComments(adId));
     }
 
+    /**
+     * Добавляет новый комментарий к объявлению
+     * @param adId идентификатор объявления
+     * @param req данные нового комментария
+     * @return ResponseEntity с созданным комментарием и кодом 201
+     */
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Добавление комментария")
     @PostMapping
@@ -38,6 +53,13 @@ public class CommentsController {
                 .body(commentsService.addComment(adId, req));
     }
 
+    /**
+     * Редактирует существующий комментарий
+     * @param adId идентификатор объявления (для валидации)
+     * @param commentId идентификатор редактируемого комментария
+     * @param req новые данные комментария
+     * @return ResponseEntity с обновленным комментарием
+     */
     @PreAuthorize("hasRole('ADMIN') or @securityService.isOwnerOfComment(#id)")
     @Operation(summary = "Редактирование комментария")
     @PatchMapping("/{commentId}")
@@ -49,6 +71,12 @@ public class CommentsController {
         return ResponseEntity.ok(commentsService.editComment(adId, commentId, req));
     }
 
+    /**
+     * Удаляет комментарий
+     * @param adId идентификатор объявления (для валидации)
+     * @param commentId идентификатор удаляемого комментария
+     * @return ResponseEntity с кодом 204 (No Content)
+     */
     @PreAuthorize("hasRole('ADMIN') or @securityService.isOwnerOfComment(#id)")
     @Operation(summary = "Удаление комментария")
     @DeleteMapping("/{commentId}")

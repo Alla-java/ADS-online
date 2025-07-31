@@ -9,6 +9,9 @@ import ru.skypro.homework.model.User;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.AuthService;
 
+/**
+ * Сервис для аутентификации и регистрации пользователей
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 ;
@@ -21,6 +24,12 @@ public class AuthServiceImpl implements AuthService {
         this.userRepository=userRepository;
     }
 
+    /**
+     * Аутентификация пользователя
+     * @param username имя пользователя (email)
+     * @param password пароль
+     * @return true, если аутентификация успешна, иначе false
+     */
 @Override
 public boolean login(String username, String password) {
     return userRepository.findUserByEmailIgnoreCase(username)
@@ -28,6 +37,11 @@ public boolean login(String username, String password) {
             .orElse(false);
 }
 
+    /**
+     * Регистрация нового пользователя
+     * @param register данные для регистрации
+     * @return true, если регистрация успешна, иначе false
+     */
 @Override
 public boolean register(Register register) {
     User user = new User();
