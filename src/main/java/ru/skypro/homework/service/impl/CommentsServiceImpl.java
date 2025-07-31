@@ -16,6 +16,10 @@ import ru.skypro.homework.service.CommentsService;
 import ru.skypro.homework.service.UserService;
 
 import java.util.List;
+
+/**
+ * Сервис для работы с комментариями к объявлениям
+ */
 @Service
 public class CommentsServiceImpl implements CommentsService {
     private final CommentRepository commentRepository;
@@ -36,6 +40,12 @@ public class CommentsServiceImpl implements CommentsService {
         this.userMapper = userMapper;
     }
 
+    /**
+     * Добавление комментария к объявлению
+     * @param adId идентификатор объявления
+     * @param req данные комментария
+     * @return созданный комментарий
+     */
     @Override
     public CommentDto addComment(Integer adId, CreateOrUpdateComment req) {
         Ad ad = adRepository.findById(adId)
@@ -53,12 +63,24 @@ public class CommentsServiceImpl implements CommentsService {
         return commentMapper.commentIntoCommentDto(saved);
     }
 
+    /**
+     * Получение всех комментариев объявления
+     * @param adId идентификатор объявления
+     * @return список комментариев с информацией о количестве
+     */
     @Override
     public Comments getComments(Integer adId) {
         List<Comment> entities = commentRepository.findByAdId(adId);
         return commentMapper.listCommentIntoCommentsDto(entities);
     }
 
+    /**
+     * Редактирование комментария
+     * @param adId идентификатор объявления
+     * @param commentId идентификатор комментария
+     * @param req новые данные комментария
+     * @return обновленный комментарий
+     */
     @Override
     public CommentDto editComment(Integer adId, Integer commentId, CreateOrUpdateComment req) {
         Comment comment = commentRepository.findById(commentId)
@@ -70,6 +92,11 @@ public class CommentsServiceImpl implements CommentsService {
         return commentMapper.commentIntoCommentDto(comment);
     }
 
+    /**
+     * Удаление комментария
+     * @param adId идентификатор объявления
+     * @param commentId идентификатор комментария
+     */
     @Override
     public void deleteComment(Integer adId, Integer commentId) {
         commentRepository.deleteById(commentId);

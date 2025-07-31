@@ -19,6 +19,9 @@ import ru.skypro.homework.service.UserService;
 
 import java.io.IOException;
 
+/**
+ * Сервис для работы с пользователями
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -28,6 +31,10 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final ImageService imageService;
 
+    /**
+     * Обновление пароля пользователя
+     * @param passwordDto данные для обновления пароля
+     */
     @Override
     public void updatePassword(NewPassword passwordDto) {
         User user = getCurrentUserFromSecurityContext();
@@ -35,12 +42,21 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
+    /**
+     * Получение информации о текущем пользователе
+     * @return данные пользователя
+     */
     @Override
     public UserDto getUser() {
         User user = getCurrentUserFromSecurityContext();
         return userMapper.userIntoUserDto(user);
     }
 
+    /**
+     * Обновление информации о пользователе
+     * @param updateDto новые данные пользователя
+     * @return обновленные данные пользователя
+     */
     @Override
     public UpdateUser updateUser(UpdateUser updateDto) {
         User user = getCurrentUserFromSecurityContext();

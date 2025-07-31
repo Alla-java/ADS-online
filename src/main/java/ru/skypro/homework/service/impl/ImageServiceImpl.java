@@ -16,7 +16,9 @@ import ru.skypro.homework.service.ImageService;
 
 import java.io.IOException;
 
-
+/**
+ * Сервис для работы с изображениями
+ */
 @Service
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
@@ -27,6 +29,12 @@ public class ImageServiceImpl implements ImageService {
     @Value("${path.images}")
     private  String images;
 
+    /**
+     * Загрузка аватара пользователя
+     * @param image файл изображения
+     * @return путь к загруженному изображению
+     * @throws IOException при ошибке работы с файлом
+     */
     @Override
     public String uploadUserImage(MultipartFile image) throws IOException {
 
@@ -48,6 +56,13 @@ public class ImageServiceImpl implements ImageService {
         return images + savedImage.getId();
     }
 
+    /**
+     * Загрузка изображения объявления
+     * @param adId идентификатор объявления
+     * @param image файл изображения
+     * @return путь к загруженному изображению
+     * @throws IOException при ошибке работы с файлом
+     */
     @Override
     public String uploadAdImage(Integer adId, MultipartFile image) throws IOException {
 
@@ -66,6 +81,11 @@ public class ImageServiceImpl implements ImageService {
         return images + savedImage.getId();
     }
 
+    /**
+     * Получение изображения по идентификатору
+     * @param id идентификатор изображения
+     * @return массив байтов изображения
+     */
     @Override
     public byte[] getImage(Integer id) {
         return imageRepository.findById(id)

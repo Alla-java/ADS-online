@@ -14,6 +14,10 @@ import ru.skypro.homework.dto.Login;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.service.AuthService;
 
+/**
+ * Контроллер для аутентификации и регистрации пользователей.
+ * Обрабатывает запросы на вход в систему и создание новых учетных записей.
+ */
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
@@ -23,6 +27,11 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * Выполняет аутентификацию пользователя
+     * @param login данные для входа (email и пароль)
+     * @return ResponseEntity с кодом 200 при успехе или 401 при ошибке
+     */
     @Operation(summary = "Авторизация пользователя")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login login) {
@@ -33,6 +42,11 @@ public class AuthController {
         }
     }
 
+    /**
+     * Регистрирует нового пользователя
+     * @param register данные для регистрации
+     * @return ResponseEntity с кодом 201 при успехе или 400 при ошибке
+     */
     @Operation(summary = "Регистрация пользователя")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Register register) {

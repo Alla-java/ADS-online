@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.repository.CommentRepository;
 
+/**
+ * Сервис для проверки прав доступа
+ */
 @Component("securityService")
 public class SecurityService{
   
@@ -17,6 +20,11 @@ public SecurityService(AdRepository adRepository,CommentRepository commentReposi
     this.userService=userService;
 }
 
+/**
+ * Проверка, является ли текущий пользователь владельцем объявления
+ * @param adId идентификатор объявления
+ * @return true, если пользователь является владельцем, иначе false
+ */
 public boolean isOwnerOfAd(Integer adId){
     var currentUser=userService.getUser();
     return adRepository
@@ -25,6 +33,11 @@ public boolean isOwnerOfAd(Integer adId){
             .orElse(false);
 }
 
+/**
+ * Проверка, является ли текущий пользователь владельцем комментария
+ * @param commentId идентификатор комментария
+ * @return true, если пользователь является владельцем, иначе false
+ */
 public boolean isOwnerOfComment(Integer commentId){
     var currentUser=userService.getUser();
     return commentRepository

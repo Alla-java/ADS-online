@@ -8,12 +8,21 @@ import ru.skypro.homework.model.Comment;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * Маппер для преобразования между сущностью Comment и DTO
+ */
 @Component
 public class CommentMapper {
 
 @Value("${path.images}")
 private  String images;
 
+    /**
+     * Преобразование Comment в CommentDto
+     * @param entity сущность комментария
+     * @return DTO комментария
+     */
     public CommentDto commentIntoCommentDto (Comment entity) {
         CommentDto dto = new CommentDto()
 
@@ -28,6 +37,11 @@ private  String images;
         return dto;
     }
 
+    /**
+     * Преобразование списка комментариев в DTO с информацией о количестве
+     * @param entities список сущностей комментариев
+     * @return DTO со списком комментариев и их количеством
+     */
     public Comments listCommentIntoCommentsDto(List<Comment> entities) {
         List<CommentDto> commentDtoDtos = entities.stream()
                 .map(this::commentIntoCommentDto) // каждый CommentEntity → DTO

@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для работы с объявлениями
+ */
 @Service
 @RequiredArgsConstructor
 public class AdServiceImpl implements AdService{
@@ -37,6 +40,13 @@ private final UserRepository userRepository;
 private final ImageService imageService;
 private final ImageRepository imageRepository;
 
+/**
+ * Добавление нового объявления
+ * @param dto данные объявления
+ * @param image изображение объявления
+ * @return созданное объявление
+ * @throws Exception при ошибке загрузки изображения
+ */
 @Override
 public AdDto addAd(CreateOrUpdateAd dto,MultipartFile image){
 
@@ -62,6 +72,12 @@ public AdDto addAd(CreateOrUpdateAd dto,MultipartFile image){
     return adMapper.adIntoAdDto(savedAd);
 }
 
+/**
+ * Обновление объявления
+ * @param id идентификатор объявления
+ * @param dto новые данные объявления
+ * @return обновленное объявление
+ */
 @Override
 public AdDto updateAd(Integer id,CreateOrUpdateAd dto){
     Ad ad=getAdOrThrow(id);
@@ -75,13 +91,21 @@ public AdDto updateAd(Integer id,CreateOrUpdateAd dto){
     return adMapper.adIntoAdDto(adRepository.save(ad));
 }
 
+/**
+ * Получение расширенной информации об объявлении
+ * @param id идентификатор объявления
+ * @return расширенная информация об объявлении
+ */
 @Override
 public ExtendedAd getAd(Integer id){
     Ad ad=getAdOrThrow(id);
     return adMapper.toExtendedDto(ad);
 }
 
-
+/**
+ * Удаление объявления
+ * @param id идентификатор объявления
+ */
 @Override
 public void deleteAd(Integer id){
     Ad ad=getAdOrThrow(id);
@@ -94,6 +118,10 @@ public void deleteAd(Integer id){
     adRepository.delete(ad);
 }
 
+/**
+ * Получение всех объявлений
+ * @return список всех объявлений с информацией о количестве
+ */
 @Override
 public Ads getAllAds(){
     List<Ad> ads=adRepository.findAll();
@@ -101,6 +129,10 @@ public Ads getAllAds(){
     return new Ads(adDtos.size(),adDtos);
 }
 
+/**
+ * Получение объявлений текущего пользователя
+ * @return список объявлений пользователя с информацией о количестве
+ */
 @Override
 public Ads getMyAds(){
     User user=getCurrentUserEntity();
